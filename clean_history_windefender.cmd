@@ -25,18 +25,17 @@ if %errorlevel% neq 0 (
 :: Display starting message
 echo Starting cleanup process...
 
-:: Deleting Windows Defender history using IObitUnlocker
-echo Deleting Windows Defender history...
-IObitUnlocker.exe /Delete /Advanced "%systemdrive%\ProgramData\Microsoft\Windows Defender\Scans\History\Service" "%systemdrive%\ProgramData\Microsoft\Windows Defender\Scans\mpenginedb.db" >nul 2>&1
+:: Deleting Windows Defender scans using IObitUnlocker
+echo Deleting Windows Defender scans...
+IObitUnlocker.exe /Delete /Advanced "C:\ProgramData\Microsoft\Windows Defender\Scans" >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Failed to delete Windows Defender history. Checking paths...
-    echo Paths:
-    echo %systemdrive%\ProgramData\Microsoft\Windows Defender\Scans\History\Service
-    echo %systemdrive%\ProgramData\Microsoft\Windows Defender\Scans\mpenginedb.db
+    echo Failed to delete Windows Defender scans. Checking path...
+    echo Path:
+    echo C:\ProgramData\Microsoft\Windows Defender\Scans
 )
 
 :: Create necessary directory
-mkdir "%systemdrive%\ProgramData\Microsoft\Windows Defender\Scans\History\Service" >nul 2>&1
+mkdir "C:\ProgramData\Microsoft\Windows Defender\Scans" >nul 2>&1
 
 :: Restart Windows Defender service
 powershell -command "Start-Service -Name WinDefend -ErrorAction SilentlyContinue" || sc start WinDefend >nul 2>&1 || net start WinDefend >nul 2>&1
